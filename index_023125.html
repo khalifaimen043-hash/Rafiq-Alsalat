@@ -1,0 +1,1223 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>رفيق الصلاة</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Tahoma,Arial,sans-serif;
+    background:
+    radial-gradient(circle at top,#153f55,#071923 45%,#03080d);
+    color:white;
+    min-height:100vh;
+}
+
+.app{
+    max-width:650px;
+    margin:auto;
+    padding:18px;
+}
+
+.screen{
+    display:none;
+}
+
+.screen.active{
+    display:block;
+    animation:show .4s ease;
+}
+
+@keyframes show{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.header{
+    text-align:center;
+    padding:20px 5px;
+}
+
+.logo{
+    font-size:42px;
+    font-weight:bold;
+}
+
+.subtitle{
+    color:#b8cbd2;
+    margin-top:8px;
+}
+
+.card{
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:24px;
+    padding:20px;
+    margin:15px 0;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+    backdrop-filter:blur(10px);
+}
+
+button{
+    width:100%;
+    border:none;
+    border-radius:16px;
+    padding:16px;
+    margin-top:10px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    color:white;
+}
+
+.primary{
+    background:linear-gradient(90deg,#159a8c,#1d6fa5);
+}
+
+.secondary{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.15);
+}
+
+.gold{
+    background:linear-gradient(90deg,#c9962c,#e6bd58);
+    color:#17120a;
+}
+
+.back{
+    margin-bottom:10px;
+}
+
+.ayah{
+    text-align:center;
+    font-size:22px;
+    line-height:2;
+    color:#f5df9a;
+}
+
+.source{
+    text-align:center;
+    color:#9eb1b9;
+    font-size:13px;
+    margin-top:10px;
+}
+
+.next-prayer{
+    text-align:center;
+}
+
+.next-icon{
+    font-size:50px;
+}
+
+.next-name{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.countdown{
+    font-size:36px;
+    margin-top:10px;
+    color:#f1d17a;
+}
+
+.prayer-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.prayer{
+    background:rgba(255,255,255,.06);
+    padding:15px;
+    border-radius:16px;
+    text-align:center;
+}
+
+.prayer-name{
+    font-weight:bold;
+    font-size:18px;
+}
+
+.prayer-time{
+    color:#f1d17a;
+    margin-top:6px;
+}
+
+.menu{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.menu button{
+    min-height:110px;
+    font-size:17px;
+}
+
+.icon{
+    display:block;
+    font-size:35px;
+    margin-bottom:8px;
+}
+
+.lesson{
+    padding:18px;
+    border-radius:18px;
+    background:rgba(255,255,255,.06);
+    margin:10px 0;
+}
+
+.lesson-number{
+    color:#e5c15d;
+    font-size:14px;
+}
+
+.lesson-title{
+    font-size:21px;
+    margin:6px 0;
+}
+
+.lesson-text{
+    color:#c5d0d5;
+    line-height:1.9;
+}
+
+.progress{
+    height:10px;
+    background:#172b34;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#16a085,#e4c05c);
+    transition:.4s;
+}
+
+.option{
+    background:rgba(255,255,255,.07);
+    padding:15px;
+    border-radius:14px;
+    margin:8px 0;
+    cursor:pointer;
+}
+
+.option.correct{
+    background:#176b4e;
+}
+
+.option.wrong{
+    background:#7b2d35;
+}
+
+.status{
+    padding:12px;
+    border-radius:12px;
+    text-align:center;
+    margin-top:10px;
+}
+
+.toggle{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 0;
+}
+
+.switch{
+    width:55px;
+    height:30px;
+    border-radius:20px;
+    background:#394c54;
+    position:relative;
+    cursor:pointer;
+}
+
+.switch.active{
+    background:#159a8c;
+}
+
+.switch::after{
+    content:"";
+    position:absolute;
+    width:24px;
+    height:24px;
+    background:white;
+    border-radius:50%;
+    top:3px;
+    right:3px;
+    transition:.2s;
+}
+
+.switch.active::after{
+    right:28px;
+}
+
+.day-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:6px;
+}
+
+.day{
+    text-align:center;
+    padding:10px 4px;
+    background:rgba(255,255,255,.06);
+    border-radius:12px;
+    font-size:12px;
+}
+
+.day.done{
+    background:#176b4e;
+}
+
+.missed{
+    background:#702d38 !important;
+}
+
+.footer{
+    text-align:center;
+    color:#70838b;
+    padding:30px 0;
+    font-size:12px;
+}
+
+@media(max-width:450px){
+    .menu button{
+        min-height:95px;
+    }
+
+    .ayah{
+        font-size:19px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ================= HOME ================= -->
+
+<section id="home" class="screen active">
+
+<div class="header">
+    <div class="logo">🕌</div>
+    <h1>رفيق الصلاة</h1>
+    <div class="subtitle">
+        تعلّم الصلاة وحافظ على صلاتك
+    </div>
+</div>
+
+<div class="card ayah">
+
+    ﴿ إِنَّ الصَّلَاةَ كَانَتْ عَلَى
+    الْمُؤْمِنِينَ كِتَابًا مَوْقُوتًا ﴾
+
+    <div class="source">
+        سورة النساء – الآية 103
+    </div>
+
+</div>
+
+<!-- الصلاة القادمة -->
+
+<div class="card next-prayer">
+
+    <div class="next-icon">🕐</div>
+
+    <div>الصلاة القادمة</div>
+
+    <div class="next-name" id="nextPrayer">
+        جاري الحساب...
+    </div>
+
+    <div class="countdown" id="countdown">
+        --
+    </div>
+
+</div>
+
+<!-- المواقيت -->
+
+<div class="card">
+
+    <h2>🕰️ مواقيت الصلاة</h2>
+
+    <div class="prayer-list">
+
+        <div class="prayer">
+            <div class="prayer-name">الفجر</div>
+            <div class="prayer-time" id="fajr">05:00</div>
+        </div>
+
+        <div class="prayer">
+            <div class="prayer-name">الظهر</div>
+            <div class="prayer-time" id="dhuhr">12:30</div>
+        </div>
+
+        <div class="prayer">
+            <div class="prayer-name">العصر</div>
+            <div class="prayer-time" id="asr">16:00</div>
+        </div>
+
+        <div class="prayer">
+            <div class="prayer-name">المغرب</div>
+            <div class="prayer-time" id="maghrib">18:45</div>
+        </div>
+
+        <div class="prayer">
+            <div class="prayer-name">العشاء</div>
+            <div class="prayer-time" id="isha">20:15</div>
+        </div>
+
+    </div>
+
+    <button class="secondary"
+            onclick="openScreen('reminders')">
+
+        🔔 إعداد التذكيرات
+
+    </button>
+
+</div>
+
+<!-- القائمة -->
+
+<div class="menu">
+
+<button class="primary"
+        onclick="openScreen('wudu')">
+
+    <span class="icon">💧</span>
+    تعلّم الوضوء
+
+</button>
+
+<button class="primary"
+        onclick="openScreen('prayer')">
+
+    <span class="icon">🧎</span>
+    تعلّم الصلاة
+
+</button>
+
+<button class="gold"
+        onclick="openScreen('sayings')">
+
+    <span class="icon">📖</span>
+    ماذا نقول في الصلاة؟
+
+</button>
+
+<button class="secondary"
+        onclick="openScreen('quiz')">
+
+    <span class="icon">🎯</span>
+    اختبر نفسك
+
+</button>
+
+</div>
+
+<!-- متابعة الصلاة -->
+
+<div class="card">
+
+    <h2>📊 صلواتي اليوم</h2>
+
+    <div class="day-grid">
+
+        <div class="day" id="day-fajr">
+            الفجر<br>⬜
+        </div>
+
+        <div class="day" id="day-dhuhr">
+            الظهر<br>⬜
+        </div>
+
+        <div class="day" id="day-asr">
+            العصر<br>⬜
+        </div>
+
+        <div class="day" id="day-maghrib">
+            المغرب<br>⬜
+        </div>
+
+        <div class="day" id="day-isha">
+            العشاء<br>⬜
+        </div>
+
+    </div>
+
+</div>
+
+<div class="footer">
+    رفيق الصلاة ❤️
+</div>
+
+</section>
+
+
+<!-- ================= WUDU ================= -->
+
+<section id="wudu" class="screen">
+
+<button class="secondary back"
+        onclick="openScreen('home')">
+    ← رجوع
+</button>
+
+<div class="header">
+    <div class="logo">💧</div>
+    <h1>تعلم الوضوء</h1>
+</div>
+
+<div class="card">
+
+    <h2>خطوات الوضوء</h2>
+
+    <div class="lesson">
+        <div class="lesson-number">الخطوة 1</div>
+        <div class="lesson-title">النية</div>
+        <div class="lesson-text">
+            ينوي المسلم الوضوء بقلبه استعدادًا للصلاة.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">الخطوة 2</div>
+        <div class="lesson-title">غسل الكفين</div>
+        <div class="lesson-text">
+            يغسل كفيه ثلاث مرات.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">الخطوة 3</div>
+        <div class="lesson-title">المضمضة والاستنشاق</div>
+        <div class="lesson-text">
+            يتمضمض ويستنشق الماء ثم يستنثر.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">الخطوة 4</div>
+        <div class="lesson-title">غسل الوجه</div>
+        <div class="lesson-text">
+            يغسل الوجه كاملًا.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">الخطوة 5</div>
+        <div class="lesson-title">غسل اليدين</div>
+        <div class="lesson-text">
+            يغسل اليد اليمنى إلى المرفق ثم اليسرى.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">الخطوة 6</div>
+        <div class="lesson-title">مسح الرأس</div>
+        <div class="lesson-text">
+            يمسح الرأس، ثم الأذنين.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">الخطوة 7</div>
+        <div class="lesson-title">غسل الرجلين</div>
+        <div class="lesson-text">
+            يغسل الرجل اليمنى إلى الكعب ثم اليسرى.
+        </div>
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- ================= PRAYER ================= -->
+
+<section id="prayer" class="screen">
+
+<button class="secondary back"
+        onclick="openScreen('home')">
+    ← رجوع
+</button>
+
+<div class="header">
+    <div class="logo">🧎</div>
+    <h1>تعلم الصلاة</h1>
+</div>
+
+<div class="card">
+
+    <div class="lesson">
+        <div class="lesson-number">1</div>
+        <div class="lesson-title">الاستعداد للصلاة</div>
+        <div class="lesson-text">
+            الوضوء، استقبال القبلة، ستر العورة، ودخول وقت الصلاة.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">2</div>
+        <div class="lesson-title">تكبيرة الإحرام</div>
+        <div class="lesson-text">
+            يرفع يديه ويقول: الله أكبر.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">3</div>
+        <div class="lesson-title">القيام والقراءة</div>
+        <div class="lesson-text">
+            يقرأ الفاتحة وما تيسر من القرآن في مواضعها.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">4</div>
+        <div class="lesson-title">الركوع</div>
+        <div class="lesson-text">
+            يركع ويقول: سبحان ربي العظيم.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">5</div>
+        <div class="lesson-title">الرفع من الركوع</div>
+        <div class="lesson-text">
+            يقول: سمع الله لمن حمده، ثم ربنا ولك الحمد.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">6</div>
+        <div class="lesson-title">السجود</div>
+        <div class="lesson-text">
+            يسجد ويقول: سبحان ربي الأعلى.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">7</div>
+        <div class="lesson-title">الجلوس بين السجدتين</div>
+        <div class="lesson-text">
+            يجلس ويدعو بما ورد من الدعاء.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">8</div>
+        <div class="lesson-title">التشهد</div>
+        <div class="lesson-text">
+            يجلس للتشهد حسب عدد ركعات الصلاة.
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-number">9</div>
+        <div class="lesson-title">التسليم</div>
+        <div class="lesson-text">
+            يختم الصلاة بالتسليم عن اليمين وعن اليسار.
+        </div>
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- ================= SAYINGS ================= -->
+
+<section id="sayings" class="screen">
+
+<button class="secondary back"
+        onclick="openScreen('home')">
+    ← رجوع
+</button>
+
+<div class="header">
+    <div class="logo">📖</div>
+    <h1>ماذا نقول في الصلاة؟</h1>
+</div>
+
+<div class="card">
+
+    <div class="lesson">
+        <div class="lesson-title">
+            تكبيرة الإحرام
+        </div>
+        <div class="ayah">
+            الله أكبر
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-title">
+            الفاتحة
+        </div>
+        <div class="lesson-text">
+            بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>
+            الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ<br>
+            الرَّحْمَٰنِ الرَّحِيمِ<br>
+            مَالِكِ يَوْمِ الدِّينِ<br>
+            إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ<br>
+            اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ<br>
+            صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ
+            غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ
+            وَلَا الضَّالِّينَ
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-title">
+            الركوع
+        </div>
+        <div class="ayah">
+            سبحان ربي العظيم
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-title">
+            السجود
+        </div>
+        <div class="ayah">
+            سبحان ربي الأعلى
+        </div>
+    </div>
+
+    <div class="lesson">
+        <div class="lesson-title">
+            التسليم
+        </div>
+        <div class="ayah">
+            السلام عليكم ورحمة الله
+        </div>
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- ================= QUIZ ================= -->
+
+<section id="quiz" class="screen">
+
+<button class="secondary back"
+        onclick="openScreen('home')">
+    ← رجوع
+</button>
+
+<div class="header">
+    <div class="logo">🎯</div>
+    <h1>اختبر نفسك</h1>
+</div>
+
+<div class="card">
+
+    <h2 id="quizQuestion">
+        كم صلاة مفروضة في اليوم؟
+    </h2>
+
+    <div class="option"
+         onclick="answerQuiz(this,false)">
+        3
+    </div>
+
+    <div class="option"
+         onclick="answerQuiz(this,true)">
+        5
+    </div>
+
+    <div class="option"
+         onclick="answerQuiz(this,false)">
+        7
+    </div>
+
+    <div id="quizResult"></div>
+
+</div>
+
+</section>
+
+
+<!-- ================= REMINDERS ================= -->
+
+<section id="reminders" class="screen">
+
+<button class="secondary back"
+        onclick="openScreen('home')">
+    ← رجوع
+</button>
+
+<div class="header">
+    <div class="logo">🔔</div>
+    <h1>تذكيرات الصلاة</h1>
+</div>
+
+<div class="card">
+
+    <h2>تفعيل التذكيرات</h2>
+
+    <div class="toggle">
+        <span>🔔 تذكير الصلاة</span>
+
+        <div id="notificationSwitch"
+             class="switch"
+             onclick="toggleNotifications()">
+        </div>
+    </div>
+
+    <p style="color:#aab8bd;line-height:1.8">
+        فعّل التذكيرات حتى يصلك تنبيه عند دخول وقت الصلاة.
+    </p>
+
+    <button class="primary"
+            onclick="requestNotificationPermission()">
+
+        🔔 السماح بالإشعارات
+
+    </button>
+
+    <div id="notificationStatus"
+         class="status">
+        التذكيرات غير مفعّلة
+    </div>
+
+</div>
+
+<div class="card">
+
+    <h2>🔊 نوع التنبيه</h2>
+
+    <button class="secondary"
+            onclick="setAlert('notification')">
+        🔔 إشعار فقط
+    </button>
+
+    <button class="secondary"
+            onclick="setAlert('sound')">
+        🔊 إشعار + صوت
+    </button>
+
+</div>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* ================= NAVIGATION ================= */
+
+function openScreen(id){
+
+    document
+    .querySelectorAll(".screen")
+    .forEach(screen=>{
+        screen.classList.remove("active");
+    });
+
+    document
+    .getElementById(id)
+    .classList.add("active");
+
+}
+
+
+/* ================= PRAYER TIMES ================= */
+
+/*
+   هذه مواقيت تجريبية للنسخة الأولى.
+   في النسخة القادمة نربطها بالحساب الحقيقي
+   حسب المدينة والتاريخ.
+*/
+
+const prayers = [
+
+    {
+        name:"الفجر",
+        time:"05:00"
+    },
+
+    {
+        name:"الظهر",
+        time:"12:30"
+    },
+
+    {
+        name:"العصر",
+        time:"16:00"
+    },
+
+    {
+        name:"المغرب",
+        time:"18:45"
+    },
+
+    {
+        name:"العشاء",
+        time:"20:15"
+    }
+
+];
+
+
+function updatePrayerTimes(){
+
+    const now = new Date();
+
+    let currentMinutes =
+        now.getHours()*60 +
+        now.getMinutes();
+
+    let next = null;
+
+    for(let prayer of prayers){
+
+        let parts =
+        prayer.time.split(":");
+
+        let minutes =
+        parseInt(parts[0])*60 +
+        parseInt(parts[1]);
+
+        if(minutes > currentMinutes){
+
+            next = prayer;
+            break;
+
+        }
+
+    }
+
+    if(!next){
+
+        next = prayers[0];
+
+    }
+
+    document
+    .getElementById("nextPrayer")
+    .textContent = next.name;
+
+    let parts =
+    next.time.split(":");
+
+    let target =
+    new Date();
+
+    target.setHours(
+        parseInt(parts[0]),
+        parseInt(parts[1]),
+        0,
+        0
+    );
+
+    if(target <= now){
+
+        target.setDate(
+            target.getDate()+1
+        );
+
+    }
+
+    let diff =
+    target-now;
+
+    let hours =
+    Math.floor(diff/3600000);
+
+    let minutes =
+    Math.floor(
+        (diff%3600000)/60000
+    );
+
+    let seconds =
+    Math.floor(
+        (diff%60000)/1000
+    );
+
+    document
+    .getElementById("countdown")
+    .textContent =
+    String(hours).padStart(2,"0")
+    +":"
+    +String(minutes).padStart(2,"0")
+    +":"
+    +String(seconds).padStart(2,"0");
+
+}
+
+
+setInterval(updatePrayerTimes,1000);
+
+updatePrayerTimes();
+
+
+/* ================= NOTIFICATIONS ================= */
+
+let notificationsEnabled =
+localStorage.getItem("notifications")
+==="true";
+
+
+function updateNotificationUI(){
+
+    let sw =
+    document.getElementById(
+        "notificationSwitch"
+    );
+
+    let status =
+    document.getElementById(
+        "notificationStatus"
+    );
+
+    if(notificationsEnabled){
+
+        sw.classList.add("active");
+
+        status.textContent =
+        "✅ التذكيرات مفعّلة";
+
+    }else{
+
+        sw.classList.remove("active");
+
+        status.textContent =
+        "التذكيرات غير مفعّلة";
+
+    }
+
+}
+
+
+function toggleNotifications(){
+
+    notificationsEnabled =
+    !notificationsEnabled;
+
+    localStorage.setItem(
+        "notifications",
+        notificationsEnabled
+    );
+
+    if(notificationsEnabled){
+
+        requestNotificationPermission();
+
+    }
+
+    updateNotificationUI();
+
+}
+
+
+function requestNotificationPermission(){
+
+    if(!("Notification" in window)){
+
+        alert(
+            "المتصفح لا يدعم الإشعارات."
+        );
+
+        return;
+
+    }
+
+    Notification
+    .requestPermission()
+    .then(permission=>{
+
+        if(permission==="granted"){
+
+            notificationsEnabled=true;
+
+            localStorage.setItem(
+                "notifications",
+                "true"
+            );
+
+            updateNotificationUI();
+
+            new Notification(
+                "🕌 رفيق الصلاة",
+                {
+                    body:
+                    "تم تفعيل تذكيرات الصلاة."
+                }
+            );
+
+        }else{
+
+            alert(
+                "يجب السماح بالإشعارات من إعدادات المتصفح."
+            );
+
+        }
+
+    });
+
+}
+
+
+function setAlert(type){
+
+    localStorage.setItem(
+        "alertType",
+        type
+    );
+
+    if(type==="sound"){
+
+        alert(
+            "تم اختيار الإشعار مع الصوت 🔊"
+        );
+
+    }else{
+
+        alert(
+            "تم اختيار الإشعار فقط 🔔"
+        );
+
+    }
+
+}
+
+
+updateNotificationUI();
+
+
+/* ================= QUIZ ================= */
+
+function answerQuiz(element,correct){
+
+    let result =
+    document.getElementById(
+        "quizResult"
+    );
+
+    if(correct){
+
+        element.classList.add("correct");
+
+        result.innerHTML =
+        '<div class="status" style="background:#176b4e">\
+        ✅ إجابة صحيحة!\
+        </div>';
+
+    }else{
+
+        element.classList.add("wrong");
+
+        result.innerHTML =
+        '<div class="status" style="background:#7b2d35">\
+        ❌ حاول مرة أخرى\
+        </div>';
+
+    }
+
+}
+
+
+/* ================= DAILY TRACKING ================= */
+
+function markPrayerDone(prayer){
+
+    localStorage.setItem(
+        "prayer_"+prayer,
+        new Date().toDateString()
+    );
+
+}
+
+
+/* ================= FUTURE REMINDER CHECK ================= */
+
+function checkPrayerReminder(){
+
+    if(!notificationsEnabled)
+        return;
+
+    let now = new Date();
+
+    let current =
+    String(now.getHours()).padStart(2,"0")
+    +":"
+    +String(now.getMinutes()).padStart(2,"0");
+
+    prayers.forEach(prayer=>{
+
+        if(current===prayer.time){
+
+            let key =
+            "sent_"+prayer.name+
+            "_"+new Date().toDateString();
+
+            if(!localStorage.getItem(key)){
+
+                localStorage.setItem(
+                    key,
+                    "true"
+                );
+
+                if(
+                    "Notification" in window &&
+                    Notification.permission==="granted"
+                ){
+
+                    new Notification(
+                        "🕌 حان وقت الصلاة",
+                        {
+                            body:
+                            "حان الآن وقت صلاة "
+                            +prayer.name
+                        }
+                    );
+
+                }
+
+            }
+
+        }
+
+    });
+
+}
+
+setInterval(
+    checkPrayerReminder,
+    30000
+);
+
+</script>
+
+</body>
+</html>
+```
